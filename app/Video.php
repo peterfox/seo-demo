@@ -4,16 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @property string slug
- * @property string title
- * @property string content
- */
-class Post extends Model
+class Video extends Model implements Browseable
 {
     protected $fillable = [
         'title',
-        'content',
+        'file',
+        'description',
     ];
 
     public function page()
@@ -23,11 +19,11 @@ class Post extends Model
 
     public function getAction()
     {
-        return 'App\Http\Controllers\PostController@showPost';
+        return 'App\Http\Controllers\VideoController@showVideo';
     }
 
     public function getParameterName()
     {
-        return 'post';
+        return 'video';
     }
 }

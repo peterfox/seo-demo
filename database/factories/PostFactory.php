@@ -7,7 +7,6 @@ $factory->define(\App\Post::class, function (Faker $faker) {
 
     return [
         'title' => $title,
-        'slug' => str_slug($title),
         'content' => $faker->realText(1000),
     ];
 });

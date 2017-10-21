@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Page;
 use App\Post;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
@@ -18,12 +19,15 @@ class SeoServiceProvider extends ServiceProvider
         /** @var Router $router */
         $router = app()->make('router');
 
-        $posts = Post::all();
+        $pages = Page::with('browseable')->get();
 
-        $posts->each(function (Post $post) use ($router) {
-            $router->get($post->slug, 'App\Http\Controllers\PostController@showPost')
-                ->defaults('post', $post)
-                ->name($post->slug);
+        $pages->each(function (Page $page) use ($router) {
+            $browseable = $page->browseable;
+
+            $router->get($page->slug, $browseable->getAction())
+                ->defaults($browseable->getParameterName(), $browseable)
+                ->name($page->slug)
+                ->middleware('web');
         });
     }
 

@@ -12,7 +12,12 @@ class PostSeeder extends Seeder
     public function run()
     {
         for($i=0; $i<100; $i++) {
-            factory(\App\Post::class)->create();
+            /** @var \App\Post $post */
+            $post = factory(\App\Post::class)->create();
+
+            $post->page()->create([
+               'slug' => str_slug($post->title),
+            ]);
         }
     }
 }
